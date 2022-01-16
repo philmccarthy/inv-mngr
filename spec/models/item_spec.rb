@@ -11,5 +11,6 @@ RSpec.describe Item, type: :model do
 
   describe 'relationships' do
     it { should have_many :sales }
+    it { should have_many :purchases }
   end
 end
