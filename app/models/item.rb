@@ -5,4 +5,5 @@ class Item < ApplicationRecord
   validates_numericality_of :initial_stock, { only_integer: true, greater_than_or_equal_to: 0 }
   
   has_many :sales
+  has_many :purchases
 end

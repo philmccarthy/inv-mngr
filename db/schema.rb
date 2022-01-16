@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_01_16_165147) do
+ActiveRecord::Schema.define(version: 2022_01_16_170646) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
@@ -25,6 +25,14 @@ ActiveRecord::Schema.define(version: 2022_01_16_165147) do
     t.datetime "updated_at", precision: 6, null: false
   end
 
+  create_table "purchases", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.uuid "item_id", null: false
+    t.integer "quantity"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["item_id"], name: "index_purchases_on_item_id"
+  end
+
   create_table "sales", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.uuid "item_id", null: false
     t.integer "quantity"
@@ -33,5 +41,6 @@ ActiveRecord::Schema.define(version: 2022_01_16_165147) do
     t.index ["item_id"], name: "index_sales_on_item_id"
   end
 
+  add_foreign_key "purchases", "items"
   add_foreign_key "sales", "items"
 end
