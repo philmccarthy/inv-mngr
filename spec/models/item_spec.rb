@@ -9,7 +9,7 @@ RSpec.describe Item, type: :model do
     it { should validate_numericality_of(:initial_stock).is_greater_than_or_equal_to(0) }
   end
 
-  # describe 'relationships' do
-  #   it { should have_many :purchases }
-  # end
+  describe 'relationships' do
+    it { should have_many :sales }
+  end
 end
