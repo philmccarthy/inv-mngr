@@ -1,0 +1,18 @@
+
+<section id="form">
+<%= form_with model: @item, method: method, url: path, local: true do |form| %>
+  <%= form.label 'Item Name' %></br>
+    <%= form.text_field :name %></br></br>
+
+  <%= form.label 'Description' %></br>
+    <%= form.text_field :description %></br></br>
+    
+  <%= form.label 'Category' %></br>
+    <%= form.text_field :category %></br></br>
+
+  <%= form.label 'Initial Stock' %></br>
+    <%= form.text_field :initial_stock %></br></br>
+      
+  <%= form.submit button_text %>
+<% end %>
+</section>

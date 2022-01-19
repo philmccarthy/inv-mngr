@@ -1,0 +1,44 @@
+<% if item.enabled %>
+  <h2><%= link_to item.name, item_path(item) %></h2>
+  <%= button_to 'Edit', edit_item_path(item), method: :get %>
+  <p>Description: <%= item.description %></p>
+  <p>Category: <%= item.category %></p>
+  <p>Initial Amount in Inventory: <%= item.initial_stock %></p>
+  <p>Current Amount in Inventory: <%= item.current_stock %></p>
+  <%= button_to 'Delete', item_path(item), method: :delete %>
+
+
+  <h3>Purchase History:</h3>
+  <ul>
+  <% if item.purchases.any? %>
+    <% item.purchases.each do |purchase| %>
+      <li>
+        <%= link_to "Purchase of #{purchase.quantity} units",
+        item_purchase_path(item, purchase) %>
+        (<%= purchase.created_at.strftime('%a, %b %d at %H:%M') %>)
+      </li>
+    <% end %>
+  <% else %>
+    <li>None</li>
+  <% end %>
+  </ul>
+
+  <h3>Sale History:</h3>
+  <ul>
+  <% if item.sales.any? %>
+    <% item.sales.each do |sale| %>
+      <li>
+        <%= link_to "Sale of #{sale.quantity} units",
+        item_sale_path(item, sale) %>
+        (<%= sale.created_at.strftime('%a, %b %d at %H:%M') %>)
+      </li>
+    <% end %>
+  <% else %>
+    <li>None</li>
+  <% end %>
+  </ul>
+<% else %>
+  <p>Item <%= item.name %> was deleted. 
+  <%= button_to 'Undelete This Item', undelete_item_path(item), method: :get %>
+  </p>
+<% end %>

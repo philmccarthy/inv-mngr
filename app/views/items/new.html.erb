@@ -1,0 +1,11 @@
+<%= link_to 'Back to Items', items_path %>
+
+<h1>Create New Item</h1>
+
+<%= render partial: 'form',
+      locals: {
+                path: items_path,
+                method: :post,
+                button_text: "Create Item"
+              } 
+%>

@@ -1,0 +1,13 @@
+<%= link_to 'Back to Items', items_path %>
+
+<h1>
+  Update Item: <%= @item.name %>
+</h1>
+
+<%= render partial: 'form',
+      locals: {
+                path: item_path(@item),
+                method: :put,
+                button_text: "Update Item"
+              } 
+%>
