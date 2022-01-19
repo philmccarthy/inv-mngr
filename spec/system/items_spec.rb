@@ -53,7 +53,9 @@ RSpec.describe 'Items System Spec', type: :system do
 
   describe 'Creates a new item' do
     it 'allows an item to be created when valid' do
-      visit new_item_path
+      visit items_path
+      click_button 'New Item'
+
 
       within('#form') do
         fill_in :item_name, with: 'Test Item'
