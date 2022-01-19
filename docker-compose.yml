@@ -1,10 +1,6 @@
-version: '3.8'
 services:
   db:
     image: postgres
-    environment:
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: password
     volumes:
       - postgres:/var/lib/postgresql/data
   web:
@@ -16,5 +12,9 @@ services:
       - "3000:3000"
     depends_on:
       - db
+    environment:
+      DATABASE_USER: postgres
+      DATABASE_PASSWORD: password
+      DATABASE_HOST: db
 volumes:
   postgres:
