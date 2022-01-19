@@ -1,0 +1,8 @@
+<%= link_to 'Back to Items', items_path %>
+
+<h1>Sale Details</h1>
+
+<p>Item Sold: <%= @sale.item.name %></p>
+<p>Quantity Sold: <%= @sale.quantity %></p>
+<p>Date of Sale: <%= @sale.created_at.strftime('%a, %b %d at %H:%M:%S') %></p>
+<p>Record last updated: <%= @sale.updated_at.strftime('%a, %b %d at %H:%M:%S') %></p>

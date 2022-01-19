@@ -1,0 +1,8 @@
+<%= link_to 'Back to Items', items_path %>
+
+<h1>Purchase Details</h1>
+
+<p>Item Purchased: <%= @purchase.item.name %></p>
+<p>Quantity Purchased: <%= @purchase.quantity %></p>
+<p>Date of Purchase: <%= @purchase.created_at.strftime('%a, %b %d at %H:%M:%S') %></p>
+<p>Record last updated: <%= @purchase.updated_at.strftime('%a, %b %d at %H:%M:%S') %></p>
