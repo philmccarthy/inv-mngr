@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 class Item < ApplicationRecord
   validates :name, :description, :category, presence: true
   validates_numericality_of :initial_stock, {
