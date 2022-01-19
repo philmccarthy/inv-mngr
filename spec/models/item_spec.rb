@@ -13,4 +13,14 @@ RSpec.describe Item, type: :model do
     it { should have_many :sales }
     it { should have_many :purchases }
   end
+
+  describe 'instance methods' do
+    it '#current_stock' do
+      item = Item.create(name: 'Item 1', description: 'Example item', category: 'Soft Goods', initial_stock: 10)
+      item.purchases.create(quantity: 5)
+      item.sales.create(quantity: 10)
+
+      expect(item.current_stock).to eq(5)
+    end
+  end
 end
