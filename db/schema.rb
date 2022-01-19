@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_01_16_170646) do
+ActiveRecord::Schema.define(version: 2022_01_19_001013) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
@@ -23,6 +23,7 @@ ActiveRecord::Schema.define(version: 2022_01_16_170646) do
     t.integer "initial_stock"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.boolean "enabled", default: true
   end
 
   create_table "purchases", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
@@ -30,6 +31,7 @@ ActiveRecord::Schema.define(version: 2022_01_16_170646) do
     t.integer "quantity"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.boolean "enabled", default: true
     t.index ["item_id"], name: "index_purchases_on_item_id"
   end
 
@@ -38,6 +40,7 @@ ActiveRecord::Schema.define(version: 2022_01_16_170646) do
     t.integer "quantity"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.boolean "enabled", default: true
     t.index ["item_id"], name: "index_sales_on_item_id"
   end
 
