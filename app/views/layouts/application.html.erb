@@ -11,6 +11,20 @@
   </head>
 
   <body>
+    <section id="flash-message">
+      <% if !flash.empty? %>
+        <% flash.each do |type, messages| %>
+          <% if messages.respond_to?('each') %>
+            <% messages.each do |message| %>
+              <p><%= message %></p>
+            <% end %>
+          <% else %>
+            <p><%= messages %></p>
+          <% end %>
+        <% end %>
+      <% end %>
+    </section>
+
     <%= yield %>
   </body>
 </html>
