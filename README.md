@@ -45,9 +45,9 @@ You have the option of using Docker (which is recommened), or setting up the pro
 
 `docker compose build`
 
-  > This could take a couple minutes while dependencies like Ruby and PostgreSQL are retrieved.
+  > This could take a couple minutes while dependencies are retrieved.
 
-`docker compose run web rails db:{create,migrate,seed}`
+`docker compose run web rails db:setup`
 
   > This will stand up the database container, create tables, and insert seed data.
 
@@ -76,6 +76,10 @@ inv-mngr-web-1  | Use Ctrl-C to stop
 Which means the database and web servers are now up and running.
 
 You're ready to check out the app by visiting [http://localhost:3000](http://localhost:3000) (FYI: The root path routes to the `items#index` action).
+
+### Troubleshooting Docker
+
+You may receive a `401: Unauthorized` response from Docker when attempting to build the container from Ruby 3.1.x if you're logged into a Docker account. Docker recently made changes to their Desktop client acess/pricing model. Logging out of should resolve this issue temporarily.
 
 ### Run Tests in Docker
 
@@ -171,7 +175,7 @@ Run bundle to install gems `inv-mngr` depends on:
 
 Create, migrate and seed the database:
 
-`bundle exec rails db:{create,migrate,seed}`
+`bundle exec rails db:setup`
 
 ### Start the App
 
