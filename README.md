@@ -26,15 +26,15 @@ Click the `Code` button at the [top of this GitHub repo](#top) and select `Downl
 
 Once downloaded, unzip the file and note the location of `inv-mngr-main`.
 
-Then, in your terminal, move into the new directroy with `cd path/to/inv-mngr-main`.
+Then, in your terminal, move into the new directory with `cd path/to/inv-mngr-main`.
 
 ### Running the app
 
-Having been exposed to containerization recently, I wanted to explore Dockerizing this Rails app. Because Rails relies on two servers (web and database), I used Docker Compose to simplify and standarize the local setup of this app.
+Having been exposed to containerization recently, I wanted to explore Dockerizing this Rails app. Because Rails relies on two servers (web and database), I used Docker Compose to simplify and standardize the local setup of this app.
 
 One challenge I overcame while Dockerizing this app was to enable running it with Docker _or_ in the more traditional way: installing all dependencies to the local machine and running from the command line.
 
-You have the option of using Docker (which is recommened), or setting up the project locally. I've outlined steps for each approach below.
+You have the option of using Docker (which is recommended), or setting up the project locally. I've outlined steps for each approach below.
 
 ## Run With Docker (Recommended)
 
@@ -79,7 +79,7 @@ You're ready to check out the app by visiting [http://localhost:3000](http://loc
 
 ### Troubleshooting Docker
 
-You may receive a `401: Unauthorized` response from Docker when attempting to build the container from Ruby 3.1.x if you're logged into a Docker account. Docker recently made changes to their Desktop client acess/pricing model. Logging out of should resolve this issue temporarily.
+You may receive a `401: Unauthorized` response from Docker when attempting to build the container from Ruby 3.1.x if you're logged into a Docker account. Docker recently made changes to their Desktop client access/pricing model. Logging out of should resolve this issue temporarily.
 
 On one machine I tested on, `docker compose run web rails db:setup` returned `LoadError`s for several Ruby gems. Running `docker compose run web rails bundle install` resolved this error.
 
@@ -255,7 +255,7 @@ Were this application to expand, a first step might be to adjust the Items, Sale
 
 ### Implementing "Undelete"
 
-I was excited to tackle "undeletion" because I've learned that production applications rarely permaneently delete data. I hadn't explored how to make this work, and I was happy to implement a fairly simple solution in adding an `enabled` column to the Items table.
+I was excited to tackle "undeletion" because I've learned that production applications rarely permanently delete data. I hadn't explored how to make this work, and I was happy to implement a fairly simple solution in adding an `enabled` column to the Items table.
 
 When the user `deletes` an item, the record is updated so that the `enabled` value is set to `false`. Presentation logic allows deleted items to be shown to the user, but item details are hidden and only an `undelete this item` button is visible.
 
