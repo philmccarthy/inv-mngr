@@ -81,6 +81,8 @@ You're ready to check out the app by visiting [http://localhost:3000](http://loc
 
 You may receive a `401: Unauthorized` response from Docker when attempting to build the container from Ruby 3.1.x if you're logged into a Docker account. Docker recently made changes to their Desktop client acess/pricing model. Logging out of should resolve this issue temporarily.
 
+On one machine I tested on, `docker compose run web rails db:setup` returned `LoadError`s for several Ruby gems. Running `docker compose run web rails bundle install` resolved this error.
+
 ### Run Tests in Docker
 
 This app was developed using Test Driven Development. The full RSpec test suite can be run using Docker Compose:
@@ -106,21 +108,21 @@ If you ran the app with Docker, please jump ahead to the [Takeaways](#takeaways)
 
 ## Run Locally (Without Docker)
 
-[Running With Docker](#running-with-docker) is a more seamless process and highly recommended. But if you'd prefer to _not_ use Docker, you can follow these steps.
+[Running With Docker](#run-with-docker-recommended) is a more seamless process and highly recommended. But if you'd prefer to _not_ use Docker, you can follow these steps.
 
 > These steps are specific to MacOS, so if you're on Windows or Linux, please use Docker.
 
 ### Install Ruby
 
-If you don't have Ruby >= 2.7 installed, this is where you should start. If you're already familiar with switching Ruby versions, activate Ruby 3.1 (or >=2.7) locally in the `/inv-mngr` directory and skip to the [Install Dependencies](#install-dependencies) section.
+If you don't have Ruby >= 2.7 installed, this is where you should start. If you're already familiar with switching Ruby versions, activate Ruby 3.1 (or >=2.7) locally in the `/inv-mngr` directory and skip to the [Install Dependencies](#install-dependencies-and-create-database) section.
 
 Otherwise, to get the right version of Ruby running we'll need to install Homebrew and rbenv.
 
 #### Install Homebrew
 
-Homebrew is a package management system that allows us to install and run various programs on MacOS. We'll use it to install `rbenv` in the next step.
+Homebrew is a package management system that allows us to install and run various programs on MacOS. We'll use it to install `postgresql` and `rbenv` in the next steps.
 
-Run `brew doctor` in your terminal. If the output is `Ready to Brew`, skip to the [rbenv section](#rbenv)
+Run `brew doctor` in your terminal. If the output is `Ready to Brew`, skip to the [install PostgreSQL section](#install-postgresql).
 
 If you see an error, follow these steps to install Homebrew:
 
@@ -129,18 +131,29 @@ If you see an error, follow these steps to install Homebrew:
   /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
   ```
   1. When prompted, enter the password you use to log in to your computer.
-  1. When it has completed the installation, which may take some time, quit the terminal using `command + q` then start a new terminal session. Run `brew doctor`. The output should tell you that everything is fine:
+  1. When it has completed the installation, which may take some time, follow the output directions to run two commands to add brew to your PATH.
+  1. Quit the terminal using `command + q` then start a new terminal session. Run `brew doctor`. The output should tell you that everything is fine:
   ```
   $ brew doctor
   Your system is ready to brew.
   ```
 
+  If you instead get a note about needing to run Software Update, follow its advice. Once done, check that `brew doctor` returns `ready to brew`.
+
+#### Install PostgreSQL
+
+The app uses PostgreSQL as its database, and we need to install it (and its dependencies) to our system.
+
+Run `brew install postgresql` and let the installation complete.
+
+Then, run `brew services start postgresql` to start the PostgreSQL service.
+
 #### Install rbenv
 
 To avoid conflicts with the version of Ruby installed natively with your operating system, it's preferable to use a Ruby environment manager like `rbenv`. On MacOs, we can use Homebrew to install rbenv.
 
-  1. In your terminal, run `brew update`. This may take several minutes
-  1. Run `brew install rbenv`. This may also take several minutes
+  1. In your terminal, run `brew update`
+  1. Run `brew install rbenv`
   1. Run `rbenv init`. The output should be _something_ like:
     ```
     # Load rbenv automatically by appending
@@ -157,25 +170,28 @@ To avoid conflicts with the version of Ruby installed natively with your operati
 Use `rbenv` to change Ruby versions:
   1. In the Terminal, run `rbenv install 3.1.0`. This may take several minutes.
   1. Run `rbenv versions`. You should now see `3.1.0` listed
-  1. Run `rbenv local 3.1.0`
-  1. Run `ruby -v`. The output should be something like `ruby 3.1.0p0 ...`. If you aren't seeing `ruby 3.1.0`, check that you correctly edited your `~/.zshrc` (or `~/.bash_profile`) file and restarted your terminal.
-  1. Finally, run `rbenv rehash` to update your path. You should not expect any output.
+  1. Run `rbenv rehash` to update your path. You should not expect any output.
+  1. cd into the `inv-mngr` directory
+  1. Run `ruby -v`. The output should be something like `ruby 3.1.0p0 ...` (the `.ruby-version` file tells rbenv to use `3.1.0`)
+    - If `ruby -v` still returns a different version, run `rbenv local 3.1.0`
+  
+  If you still aren't seeing `ruby -v` return `ruby 3.1.0`, check that you correctly edited your `~/.zshrc` (or `~/.bash_profile`) file, restarted your terminal, and ran `rbenv rehash`.
 
 ### Install Dependencies and Create Database
 
 Next, with the `inv-mngr` repository as your `pwd`, run these commands in order:
 
-Install the Bundler gem manager:
-
-`gem install bundler`
-
 Run bundle to install gems `inv-mngr` depends on:
 
 `bundle install`
 
+> If you get an error from bundler related to `pg`, double check that you [installed PostgreSQL](#install-postgresql) with Homebrew.
+
 Create, migrate and seed the database:
 
 `bundle exec rails db:setup`
+
+If you receive a `PG::ConnectionBad` error, run `brew services start postgresql`.
 
 ### Start the App
 
