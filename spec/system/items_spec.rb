@@ -34,11 +34,13 @@ RSpec.describe 'Items System Spec', type: :system do
         expect(page).to have_button('New Item')
       end
 
-      Item.all.each do |item|
+      Item.all_with_current_stock.each do |item|
         within("#item-#{item.id}") do
           expect(page).to have_text("Description: #{item.description}")
           expect(page).to have_text("Category: #{item.category}")
           expect(page).to have_text("Initial Amount in Inventory: #{item.initial_stock}")
+          expect(page).to have_text("Total Amount Purchased: #{item.qty_purchased}")
+          expect(page).to have_text("Total Amount Sold: #{item.qty_sold}")
           expect(page).to have_text("Current Amount in Inventory: #{item.current_stock}")
           item.purchases.each do |purchase|
             expect(page).to have_link("Purchase of #{purchase.quantity} units")

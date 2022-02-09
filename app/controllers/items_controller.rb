@@ -2,7 +2,7 @@ class ItemsController < ApplicationController
   before_action :set_item, except: %i[index new create]
 
   def index
-    @items = Item.order_by_created_at
+    @items = Item.all_with_current_stock
   end
 
   def show; end
@@ -59,6 +59,6 @@ class ItemsController < ApplicationController
   end
 
   def set_item
-    @item = Item.find(params[:id])
+    @item = Item.all_with_current_stock.find(params[:id])
   end
 end

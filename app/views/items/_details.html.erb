@@ -4,6 +4,8 @@
   <p>Description: <%= item.description %></p>
   <p>Category: <%= item.category %></p>
   <p>Initial Amount in Inventory: <%= item.initial_stock %></p>
+  <p>Total Amount Purchased: <%= item.qty_purchased %></p>
+  <p>Total Amount Sold: <%= item.qty_sold %></p>
   <p>Current Amount in Inventory: <%= item.current_stock %></p>
   <%= button_to 'Delete', item_path(item), method: :delete %>
 

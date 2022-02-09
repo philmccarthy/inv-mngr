@@ -14,13 +14,19 @@ RSpec.describe Item, type: :model do
     it { should have_many :purchases }
   end
 
-  describe 'instance methods' do
-    it '#current_stock' do
+  describe 'class methods' do
+    it '::all_with_current_stock' do
       item = Item.create(name: 'Item 1', description: 'Example item', category: 'Soft Goods', initial_stock: 10)
-      item.purchases.create(quantity: 5)
-      item.sales.create(quantity: 10)
+      purch = item.purchases.create(quantity: 5)
+      sale = item.sales.create(quantity: 10)
 
-      expect(item.current_stock).to eq(5)
+      query_item = Item.all_with_current_stock.first
+
+      expect(query_item.current_stock).to eq(5)
+      expect(query_item.qty_purchased).to eq(5)
+      expect(query_item.qty_sold).to eq(10)
+      expect(query_item.purchases).to eq([purch])
+      expect(query_item.sales).to eq([sale])
     end
   end
 end
